@@ -1,9 +1,9 @@
 from customtkinter import *
 from tkinter import filedialog, Menu
-from frontend.lista import Lista
-from frontend.configuracoes import Configuracoes
-from frontend.pontuacao import Pontuacao_Provas
-from frontend.rank import Rank
+from frontend.frames.tabela_scroll import Tabela_Scroll
+from frontend.frames.configuracoes import Configuracoes
+from frontend.frames.pontuacao import Pontuacao_Provas
+from frontend.frames.rank import Rank
 from frontend.theme import COLORS
 
 set_appearance_mode("Dark")
@@ -12,9 +12,9 @@ class App(CTk):
     def __init__(self):
         super().__init__()
         self.geometry("1280x720")
-        self.title("Enem da Read")
+        self.title("Ranking CIA12")
         self.config(bg=COLORS["bg"])
-        self.aluno_selecionado = None
+        self.prova_selecionada = None
         
         
         #Inicilização do menu
@@ -29,7 +29,7 @@ class App(CTk):
         self.central_frame.place(relx = 0.5, rely= 0.5, anchor= "center", relwidth = 0.95, relheight = 0.85)
         
         #Inicialização da Lista de Provas
-        self.lista = Lista(master = self.central_frame, fg_color=COLORS["bg"], corner_radius=0)
+        self.lista = Tabela_Scroll(master = self.central_frame, fg_color=COLORS["bg"], corner_radius=0, dados = ["Um", "Dois"], tipo_dado= "prova", service= None, funcao= self.selecionar_prova)
         self.lista.place(relx = 0.19, rely = 0.5, relwidth = 0.3, relheight = 0.77, anchor = "center")
         
         self.barra_nome_lista = CTkFrame(master = self.central_frame, fg_color=COLORS["bg3"], corner_radius=0)
@@ -41,14 +41,14 @@ class App(CTk):
         
         #Inicialização dos pontos das provas
         
-        self.gabarito = Pontuacao_Provas(master = self.central_frame, selected= self.aluno_selecionado, fg_color=COLORS["bg"], corner_radius=0)
-        self.gabarito.place(relx = 0.5, rely = 0.5, relwidth = 0.3, relheight = 0.77, anchor = "center")
+        self.pontuacao = Pontuacao_Provas(master = self.central_frame, selected= self.prova_selecionada, fg_color=COLORS["bg"], corner_radius=0)
+        self.pontuacao.place(relx = 0.5, rely = 0.5, relwidth = 0.3, relheight = 0.77, anchor = "center")
 
-        self.barra_nome_questoes = CTkFrame(master = self.central_frame, fg_color=COLORS["bg3"], corner_radius=0)
-        self.barra_nome_questoes.place(relx = 0.5, rely = 0.09, relwidth = 0.3, relheight = 0.05, anchor = "center")
+        self.barra_pontuacao = CTkFrame(master = self.central_frame, fg_color=COLORS["bg3"], corner_radius=0)
+        self.barra_pontuacao.place(relx = 0.5, rely = 0.09, relwidth = 0.3, relheight = 0.05, anchor = "center")
 
-        self.nome_questoes = CTkLabel(master = self.barra_nome_questoes, text=f"Prova: Não selecionada")
-        self.nome_questoes.place(relx = 0.5, rely = 0.5, anchor = "center")
+        self.pontuacao_label = CTkLabel(master = self.barra_pontuacao, text=f"Prova: Não selecionada")
+        self.pontuacao_label.place(relx = 0.5, rely = 0.5, anchor = "center")
 
         self.barra_gabarito = CTkFrame(master = self.central_frame, corner_radius=0)
         self.barra_gabarito.place(relx = 0.5, rely = 0.885, relwidth = 0.3, relheight = 0.05, anchor = "center")
@@ -77,18 +77,7 @@ class App(CTk):
         
         self.credits = CTkLabel(master= self, text= "Made by kakaeser", fg_color=COLORS["bg"], text_color= COLORS["text"])
         self.credits.place(relx= 0.09, rely= 0.95, anchor= "center")
-        
-    def selecionar_aluno(self, id, nome):
-        presentes = self.presence_service.listar_presentes()
 
-        if any(p["id"] == id for p in presentes):
-            self.aluno_selecionado = {"id": id, "nome": nome}
-            self.nome_questoes.configure(
-                text=f"Questões de: {nome}"
-            )
-            self.gabarito.selected = self.aluno_selecionado
-            self.question_service.add_respostas(self.aluno_selecionado["id"])
-            self.gabarito.renderizar()
     
     def abrir_configs(self):
         if hasattr(self, "toplevel") and self.toplevel.winfo_exists():
@@ -150,3 +139,8 @@ class App(CTk):
         y = event.widget.winfo_rooty() + event.widget.winfo_height()
 
         menu.post(x, y)
+
+    def selecionar_prova(self, prova):
+        self.prova_selecionada = prova
+        self.pontuacao_label.configure(text = "Prova: " + self.prova_selecionada)
+        self.pontuacao.renderizar()

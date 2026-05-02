@@ -11,5 +11,5 @@ class Competicao(Base):
     equipes = relationship(
         "Equipe", 
         back_populates="competicao",
-        cascade="all, delete-orphan" # <--- O EFEITO DOMINÓ AQUI
+        cascade="all, delete-orphan" 
     )
