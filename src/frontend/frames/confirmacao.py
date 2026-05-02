@@ -12,6 +12,8 @@ class Confirmacao (CTkToplevel):
         self.configure(fg_color = COLORS["bg"])
         self.attributes('-topmost', True)
 
+        centralizar_janela(self, 300, 150)
+
         # Configuração do Grid
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
@@ -41,3 +43,14 @@ class Confirmacao (CTkToplevel):
 
     def nao(self):
         self.destroy()
+
+def centralizar_janela(janela, largura=300, altura=200):
+    janela.update_idletasks()
+
+    largura_tela = janela.winfo_screenwidth()
+    altura_tela = janela.winfo_screenheight()
+
+    x = int((largura_tela / 2) - (largura / 2))
+    y = int((altura_tela / 2) - (altura / 2))
+
+    janela.geometry(f"{largura}x{altura}+{x}+{y}")

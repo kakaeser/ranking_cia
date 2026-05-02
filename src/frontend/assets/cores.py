@@ -1,0 +1,9 @@
+TCORES={
+    "Preto",
+    "Azul",
+    "Vermelho",
+    "Laranja",
+    "Verde",
+    "Roxo",
+    "Amarelo"
+}
