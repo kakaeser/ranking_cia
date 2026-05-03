@@ -7,7 +7,6 @@ class Prova(Base):
 
     id = Column(Integer, primary_key=True)
     c_id = Column(Integer, ForeignKey("competicoes.id"), nullable= False)
-    e_id = Column(Integer, ForeignKey("equipes.id"), nullable= False)
     nome = Column(String, nullable= False)
 
     pontuacoes = relationship(
