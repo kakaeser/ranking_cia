@@ -209,7 +209,7 @@ class Principal(CTkFrame):
     def abrir_menu_arquivos(self, event):
         menu = Menu(self, tearoff=0, bg=COLORS["cards"], fg=COLORS["text"],activebackground=COLORS["hover"])
 
-        menu.add_command(label="Abrir competicao")
+        menu.add_command(label="Abrir competicao", command = self.abrir_competicao)
         menu.add_separator()
         menu.add_command(label="Adicionar Equipes", command= self.abrir_configs)
         # posição logo abaixo do botão
@@ -222,3 +222,7 @@ class Principal(CTkFrame):
         self.prova_selecionada = prova
         self.pontuacao_label.configure(text = "Prova: " + self.prova_selecionada)
         self.pontuacao.renderizar()
+
+    def abrir_competicao(self):
+        self.app.competicao_selecionada = None
+        self.app.mostrar_tela("inicial")

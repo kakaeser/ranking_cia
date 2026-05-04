@@ -7,12 +7,12 @@ class Confirmacao (CTkToplevel):
         self.mensagem = mensagem
         self.funcao = funcao
         self.title("Confirmação")
-        self.geometry("300x150")
+        self.geometry("600x150")
         self.resizable(False, False)
         self.configure(fg_color = COLORS["bg"])
         self.attributes('-topmost', True)
 
-        centralizar_janela(self, 300, 150)
+        centralizar_janela(self, 600, 150)
 
         # Configuração do Grid
         self.grid_columnconfigure(0, weight=1)

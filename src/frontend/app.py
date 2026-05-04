@@ -19,7 +19,7 @@ class App(CTk):
         self.container = CTkFrame(self)
         self.container.pack(fill="both", expand=True)
 
-        self.mostrar_tela("principal")
+        self.mostrar_tela("inicial")
 
     def mostrar_tela(self, tela):
         for widget in self.container.winfo_children():

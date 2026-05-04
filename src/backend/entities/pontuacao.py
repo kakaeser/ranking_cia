@@ -12,4 +12,4 @@ class Pontuacao(Base):
     p_id = Column(Integer, ForeignKey("provas.id"), nullable= False)
     pontos = Column(Integer, default= 0)
 
-    __table_args__ = (UniqueConstraint("equipe_id", "prova_id"))
+    __table_args__ = (UniqueConstraint("e_id", "p_id"),)
