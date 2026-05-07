@@ -9,8 +9,6 @@ class Equipe(Base):
     c_id = Column(Integer, ForeignKey("competicoes.id"), nullable= False)
     nome = Column(String, nullable= False)
 
-    pontuacoes = relationship(
-        "Pontuacao",
-        back_populates="equipe",
-        cascade="all, delete-orphan"
-    )
+    competicao = relationship("Competicao", back_populates="equipes")
+
+    pontuacoes = relationship("Pontuacao", back_populates="equipe",cascade="all, delete-orphan")

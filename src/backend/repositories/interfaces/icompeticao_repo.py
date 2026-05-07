@@ -14,9 +14,5 @@ class ICompeticao_Repo(ABC):
         pass
 
     @abstractmethod
-    def obter_por_id(self, id: int) -> Optional[Competicao]:
-        pass
-
-    @abstractmethod
     def deletar(self, id: int) -> None:
         pass

@@ -1,4 +1,5 @@
 from customtkinter import *
+from backend.services.competicao_service import Competicao_Service
 from frontend.frames.tabela_scroll import Tabela_Scroll
 from frontend.theme import COLORS
 from PIL import Image
@@ -8,6 +9,8 @@ class Inicial(CTkFrame):
     def __init__(self, master,app,  **kwargs):
         super().__init__(master, **kwargs)
         self.app = app
+        self.competicao_service = Competicao_Service()
+        self.dados_competicao = self.competicao_service.listar()
         
         # Background
         background = Image.open("src/frontend/assets/logo_cia.png")
@@ -50,15 +53,17 @@ class Inicial(CTkFrame):
             master = self.frame1, 
             fg_color=COLORS["bg"], 
             corner_radius=0, 
-            dados=[1], 
+            dados=self.dados_competicao, 
             tipo_dado="Competicao", 
-            service = None, 
-            funcao = self.selecionar
+            service = self.competicao_service, 
+            funcao = self.selecionar, 
+            app = self.app
         )
         self.seletor.place(relx = 0.5, rely = 0.55, relwidth = 0.9, relheight = 0.75, anchor = "center")
 
 
+
     def selecionar(self, dado):
         self.app.competicao_selecionada = dado
-        self.app.title(dado)
+        self.app.title(dado["nome"])
         self.app.mostrar_tela("principal")

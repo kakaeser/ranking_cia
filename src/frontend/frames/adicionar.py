@@ -39,9 +39,9 @@ class Adicionar (CTkToplevel):
         if not self.entry.get():
             self.error_label.configure(text="Voce nao colocou nome da " + self.tipo_dado + "!!!")
             return
-        self.destroy()
         if self.funcao:
             self.funcao(self.entry.get())
+        self.destroy()
 
     
 

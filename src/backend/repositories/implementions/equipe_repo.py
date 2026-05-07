@@ -1,7 +1,7 @@
 from backend.entities.equipe import Equipe
 from backend.repositories.interfaces.iequipe_repo import IEquipe_Repo
 
-class Competicao_Repo(IEquipe_Repo):
+class Equipe_Repo(IEquipe_Repo):
     def __init__(self, session):
         self.session = session
     

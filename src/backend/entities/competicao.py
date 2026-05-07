@@ -8,8 +8,4 @@ class Competicao(Base):
     id = Column(Integer, primary_key= True)
     nome = Column(String)
 
-    equipes = relationship(
-        "Equipe", 
-        back_populates="competicao",
-        cascade="all, delete-orphan" 
-    )
+    equipes = relationship("Equipe", back_populates="competicao",cascade="all, delete-orphan" )

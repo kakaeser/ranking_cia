@@ -5,12 +5,13 @@ from frontend.frames.adicionar import Adicionar
 from PIL import Image
 
 class Tabela_Scroll(CTkScrollableFrame):
-    def __init__(self, dados, tipo_dado, service, funcao ,master, **kwargs):
+    def __init__(self, dados, tipo_dado, service, funcao ,app,master, **kwargs):
         super().__init__(master, **kwargs)
         self.dados = dados
         self.tipo_dado = tipo_dado
         self.service = service
         self.funcao = funcao
+        self.app = app
 
         delete = Image.open("src/frontend/assets/delete.png")
         self.delete = CTkImage(light_image=delete, dark_image=delete,size=(24, 24))
@@ -48,7 +49,7 @@ class Tabela_Scroll(CTkScrollableFrame):
         linha.pack(fill="x", padx=2, pady=2)
         botao_nome = CTkButton(
             linha,
-            text=dado,
+            text=dado["nome"],
             fg_color=COLORS["cards"],
             hover_color=COLORS["hover"],
             corner_radius= 4 ,
@@ -63,19 +64,39 @@ class Tabela_Scroll(CTkScrollableFrame):
             hover_color=COLORS["hover"], 
             corner_radius= 4 ,
             anchor="w", 
-            command= self.abrir_confirmacao
+            command= lambda: self.abrir_confirmacao(dado["id"])
         )
         botao_nome.pack(side="left", fill="x", expand=True, padx=(8, 12))
         botao_delete.pack(side="right", padx=(0, 0))
         
-    def abrir_confirmacao(self):
+    def abrir_confirmacao(self, id: int):
         if hasattr(self, "toplevel") and self.toplevel.winfo_exists():
             self.toplevel.focus()
             return
-        self.toplevel = Confirmacao(mensagem= "Voce realmente quer apagar essa " + self.tipo_dado + "???", funcao= self.service.delete)
+        self.toplevel = Confirmacao(
+            mensagem= "Voce realmente quer apagar essa " + self.tipo_dado + "???", 
+            funcao= lambda:self.deletar(id)
+        )
 
     def abrir_adicionar(self):
         if hasattr(self, "toplevel") and self.toplevel.winfo_exists():
             self.toplevel.focus()
             return
-        self.toplevel = Adicionar(tipo_dado = self.tipo_dado, funcao= self.service.criar)
+        self.toplevel = Adicionar(tipo_dado = self.tipo_dado, funcao= self.criar)
+
+    def deletar(self, id: int):
+        self.service.deletar(id)
+        if self.tipo_dado == "Competicao":
+            self.dados = self.service.listar()
+        else:
+            self.dados = self.service.listar(self.app.competicao_selecionada["id"])
+        self.renderizar()
+    
+    def criar(self, nome):
+        if self.tipo_dado == "Competicao":
+            self.service.criar(nome)
+            self.dados = self.service.listar()
+        else:
+            self.service.criar(nome, self.app.competicao_selecionada["id"])
+            self.dados = self.service.listar(self.app.competicao_selecionada["id"])
+        self.renderizar()

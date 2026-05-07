@@ -4,9 +4,10 @@ from frontend.frames.tabela_scroll import Tabela_Scroll
 from tkinter import filedialog
 
 class Configuracoes(CTkToplevel):
-    def __init__(self, master,on_update, **kwargs):
+    def __init__(self,app, master,on_update, **kwargs):
         super().__init__(master, **kwargs)
         self.on_update = on_update
+        self.app = app
 
         self.frame = CTkFrame(
             master= self, 
@@ -29,6 +30,7 @@ class Configuracoes(CTkToplevel):
             tipo_dado="Equipes",
             service = None, 
             funcao = None, 
+            app= self.app,
             master= self.frame, 
             width= 250, 
             height = 350

@@ -1,7 +1,7 @@
 from backend.entities.prova import Prova
 from backend.repositories.interfaces.iprovas_repo import IProva_Repo
 
-class Competicao_Repo(IProva_Repo):
+class Prova_Repo(IProva_Repo):
     def __init__(self, session):
         self.session = session
     

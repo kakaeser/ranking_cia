@@ -1,5 +1,6 @@
 from customtkinter import *
 from tkinter import filedialog, Menu
+from backend.services.provas_service import Provas_Service
 from frontend.frames.tabela_scroll import Tabela_Scroll
 from frontend.screens.configuracoes import Configuracoes
 from frontend.frames.pontuacao import Pontuacao_Provas
@@ -11,6 +12,8 @@ class Principal(CTkFrame):
         super().__init__(master, **kwargs)
 
         self.app = app
+        self.provas_service = Provas_Service()
+        self.provas_dados = self.provas_service.listar(self.app.competicao_selecionada["id"])
 
         #Inicilização do menu
         self.menu = CTkFrame(
@@ -42,10 +45,11 @@ class Principal(CTkFrame):
             master = self.central_frame, 
             fg_color=COLORS["bg"], 
             corner_radius=0, 
-            dados = ["Um", "Dois"], 
+            dados = self.provas_dados, 
             tipo_dado= "prova", 
-            service= None, 
-            funcao= self.selecionar_prova
+            service= self.provas_service, 
+            funcao= self.selecionar_prova,
+            app = self.app
         )
         self.lista.place(relx = 0.19, rely = 0.5, relwidth = 0.3, relheight = 0.77, anchor = "center")
         
@@ -207,7 +211,7 @@ class Principal(CTkFrame):
             return  
 
     def abrir_menu_arquivos(self, event):
-        menu = Menu(self, tearoff=0, bg=COLORS["cards"], fg=COLORS["text"],activebackground=COLORS["hover"])
+        menu = Menu(self, tearoff=0, bg=COLORS["cards"], fg=COLORS["text"],activebackground=COLORS["hover"], app = self.app)
 
         menu.add_command(label="Abrir outra competicao", command = self.abrir_competicao)
         menu.add_separator()
@@ -220,10 +224,13 @@ class Principal(CTkFrame):
 
     def selecionar_prova(self, prova):
         self.prova_selecionada = prova
-        self.pontuacao_label.configure(text = "Prova: " + self.prova_selecionada)
+        self.pontuacao_label.configure(text = "Prova: " + self.prova_selecionada["nome"])
         self.pontuacao.renderizar()
 
     def abrir_competicao(self):
         self.app.competicao_selecionada = None
         self.app.title("Ranking CIA12")
         self.app.mostrar_tela("inicial")
+    
+    def recarregar(self):
+        pass
