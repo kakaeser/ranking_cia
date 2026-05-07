@@ -1,6 +1,7 @@
 from customtkinter import *
 from frontend.theme import COLORS
 from frontend.frames.confirmacao import Confirmacao
+from frontend.frames.adicionar import Adicionar
 from PIL import Image
 
 class Tabela_Scroll(CTkScrollableFrame):
@@ -30,7 +31,16 @@ class Tabela_Scroll(CTkScrollableFrame):
         adicionar = CTkFrame(master = self, fg_color=COLORS["cards"])
         adicionar.pack(fill="x", padx=2, pady=2)
 
-        btn_adicionar = CTkButton(master= adicionar,image= self.add, text="Adicionar " + self.tipo_dado,fg_color=COLORS["cards"],hover_color=COLORS["hover"],corner_radius= 4 ,anchor="center")
+        btn_adicionar = CTkButton(
+            master= adicionar,
+            image= self.add, 
+            text="Adicionar " + self.tipo_dado,
+            fg_color=COLORS["cards"],
+            hover_color=COLORS["hover"],
+            corner_radius= 4 ,
+            anchor="center",
+            command= self.abrir_adicionar
+            )
         btn_adicionar.pack(side="left", fill="x", expand=True, padx=(8, 4))
     
     def criar_linha(self, dado):
@@ -62,4 +72,10 @@ class Tabela_Scroll(CTkScrollableFrame):
         if hasattr(self, "toplevel") and self.toplevel.winfo_exists():
             self.toplevel.focus()
             return
-        self.toplevel = Confirmacao(mensagem= "Voce realmente quer apagar essa " + self.tipo_dado + "???", funcao= None)
+        self.toplevel = Confirmacao(mensagem= "Voce realmente quer apagar essa " + self.tipo_dado + "???", funcao= self.service.delete)
+
+    def abrir_adicionar(self):
+        if hasattr(self, "toplevel") and self.toplevel.winfo_exists():
+            self.toplevel.focus()
+            return
+        self.toplevel = Adicionar(tipo_dado = self.tipo_dado, funcao= self.service.criar)

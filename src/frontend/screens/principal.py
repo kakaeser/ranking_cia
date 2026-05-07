@@ -158,7 +158,7 @@ class Principal(CTkFrame):
         self.credits.place(relx= 0.09, rely= 0.95, anchor= "center")
 
     
-    def abrir_configs(self):
+    def abrir_gerenciador(self):
         if hasattr(self, "toplevel") and self.toplevel.winfo_exists():
             self.toplevel.focus()
             return
@@ -209,9 +209,9 @@ class Principal(CTkFrame):
     def abrir_menu_arquivos(self, event):
         menu = Menu(self, tearoff=0, bg=COLORS["cards"], fg=COLORS["text"],activebackground=COLORS["hover"])
 
-        menu.add_command(label="Abrir competicao", command = self.abrir_competicao)
+        menu.add_command(label="Abrir outra competicao", command = self.abrir_competicao)
         menu.add_separator()
-        menu.add_command(label="Adicionar Equipes", command= self.abrir_configs)
+        menu.add_command(label="Gerenciar Equipes", command= self.abrir_gerenciador)
         # posição logo abaixo do botão
         x = event.widget.winfo_rootx()
         y = event.widget.winfo_rooty() + event.widget.winfo_height()
@@ -225,4 +225,5 @@ class Principal(CTkFrame):
 
     def abrir_competicao(self):
         self.app.competicao_selecionada = None
+        self.app.title("Ranking CIA12")
         self.app.mostrar_tela("inicial")

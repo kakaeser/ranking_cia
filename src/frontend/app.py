@@ -25,7 +25,7 @@ class App(CTk):
         for widget in self.container.winfo_children():
             widget.destroy()
         if tela == "inicial":
-            self.tela_atual = Inicial(app=self, master= self.container)
+            self.tela_atual = Inicial(app=self, master= self.container, fg_color=COLORS["bg"])
         if tela == "principal":
             self.tela_atual = Principal(app=self, master= self.container)
 
