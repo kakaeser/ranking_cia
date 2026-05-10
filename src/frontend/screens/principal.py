@@ -166,7 +166,7 @@ class Principal(CTkFrame):
         if hasattr(self, "toplevel") and self.toplevel.winfo_exists():
             self.toplevel.focus()
             return
-        self.toplevel = Configuracoes(master= self, on_update= self.atualizar_telas)
+        self.toplevel = Configuracoes(master= self, on_update= self.atualizar_telas,app = self.app)
         self.toplevel.title("Configurações")
         self.toplevel.geometry("500x500")
         self.toplevel.lift()
@@ -211,7 +211,7 @@ class Principal(CTkFrame):
             return  
 
     def abrir_menu_arquivos(self, event):
-        menu = Menu(self, tearoff=0, bg=COLORS["cards"], fg=COLORS["text"],activebackground=COLORS["hover"], app = self.app)
+        menu = Menu(self, tearoff=0, bg=COLORS["cards"], fg=COLORS["text"],activebackground=COLORS["hover"])
 
         menu.add_command(label="Abrir outra competicao", command = self.abrir_competicao)
         menu.add_separator()
