@@ -14,6 +14,8 @@ class Equipes_Service():
             equipe = equipe_repo.criar(nome, c_id)
 
             provas = prova_repo.listar_por_cid(c_id)
+
+            db.session.flush()
             if provas:
                 for p in provas:
                     pontuacao_repo.criar(equipe.id, p.id)
@@ -38,8 +40,7 @@ class Equipes_Service():
             return [
             {
                 "id" : c.id,
-                "nome": c.nome,
-                "c_id": c.c_id
+                "nome": c.nome
             } 
             for c in equipes
             ]

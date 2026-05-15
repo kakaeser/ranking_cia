@@ -19,6 +19,7 @@ class Rank(CTkScrollableFrame):
                 self,
                 text="Nenhuma nota foi computada"
             ).pack(pady=20)
+            return
         
         i = 0
         for p in self.ranking:

@@ -24,7 +24,7 @@ class Tabela_Scroll(CTkScrollableFrame):
     def renderizar(self):
         for widget in self.winfo_children():
             widget.destroy()
-        # Ainda não temos nada
+            
         if self.dados:
             for p in self.dados:
                 self.criar_linha(p)

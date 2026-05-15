@@ -44,7 +44,7 @@ class Inicial(CTkFrame):
 
         self.label2 = CTkLabel(
             master= self.frame2, 
-            text="Escolha sua competicao:",  
+            text="Escolha sua competicão:",  
             font= ("Montserrat", 16)
         )
         self.label2.place(relx = 0.5, rely = 0.45, anchor = "center")
@@ -54,7 +54,7 @@ class Inicial(CTkFrame):
             fg_color=COLORS["bg"], 
             corner_radius=0, 
             dados=self.dados_competicao, 
-            tipo_dado="Competicao", 
+            tipo_dado="Competicão", 
             service = self.competicao_service, 
             funcao = self.selecionar, 
             app = self.app

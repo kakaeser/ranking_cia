@@ -15,6 +15,8 @@ class Provas_Service():
 
             equipes = equipe_repo.listar_por_cid(c_id)
 
+            db.session.flush()
+
             if equipes:
                 for e in equipes:
                     pontuacao_repo.criar(e.id, prova.id)

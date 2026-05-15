@@ -1,6 +1,7 @@
 from customtkinter import *
 from tkinter import filedialog, Menu
 from backend.services.provas_service import Provas_Service
+from backend.services.pontuacao_service import Pontuacao_Service
 from frontend.frames.tabela_scroll import Tabela_Scroll
 from frontend.screens.configuracoes import Configuracoes
 from frontend.frames.pontuacao import Pontuacao_Provas
@@ -13,6 +14,7 @@ class Principal(CTkFrame):
 
         self.app = app
         self.provas_service = Provas_Service()
+        self.pontuacao_service = Pontuacao_Service()
         self.provas_dados = self.provas_service.listar(self.app.competicao_selecionada["id"])
 
         #Inicilização do menu
@@ -72,6 +74,7 @@ class Principal(CTkFrame):
         self.pontuacao = Pontuacao_Provas(
             master = self.central_frame, 
             selected= self.app.prova_selecionada, 
+            service = self.pontuacao_service,
             fg_color=COLORS["bg"], 
             corner_radius=0
         )
@@ -98,30 +101,22 @@ class Principal(CTkFrame):
 
         self.aplicar_rank = CTkButton(
             master = self.barra_gabarito, 
-            width = 128, fg_color=COLORS["primary"], 
+            width = 192, 
+            fg_color=COLORS["primary"], 
             hover_color=COLORS["hover"], 
             corner_radius=0, 
             text = "Aplicar", 
-            command = lambda: self.rank.renderizar()
+            command = self.aplicar
         )
         self.aplicar_rank.pack(side = "left", fill = "both")
 
-        self.marcar_todos = CTkButton(
-            master = self.barra_gabarito, 
-            width = 128, fg_color=COLORS["cards"], 
-            hover_color=COLORS["hover"], 
-            corner_radius=0, 
-            text = "Marcar tudo", 
-            command = lambda: self.marcacao(1)
-        )
-        self.marcar_todos.pack(side = "left", fill = "both")
-
         self.desmarcar_todos = CTkButton(
             master = self.barra_gabarito, 
-            width = 128, fg_color=COLORS["cards"], 
+            width = 192, 
+            fg_color=COLORS["cards"], 
             hover_color=COLORS["hover"], 
             corner_radius=0, 
-            text = "Desmarcar tudo", 
+            text = "Zerar tudo", 
             command = lambda: self.marcacao(0)
         )
         self.desmarcar_todos.pack(side = "left", fill = "both")
@@ -223,14 +218,19 @@ class Principal(CTkFrame):
         menu.post(x, y)
 
     def selecionar_prova(self, prova):
-        self.prova_selecionada = prova
-        self.pontuacao_label.configure(text = "Prova: " + self.prova_selecionada["nome"])
+        self.app.prova_selecionada = prova
+        self.pontuacao_label.configure(text = "Prova: " + self.app.prova_selecionada["nome"])
+        self.pontuacao.selected = self.app.prova_selecionada
+        self.pontuacao.pontuacao_equipes = self.pontuacao_service.listar_por_prova(self.app.prova_selecionada["id"])
+        self.pontuacao.variaveis_pontos = {}
         self.pontuacao.renderizar()
 
     def abrir_competicao(self):
         self.app.competicao_selecionada = None
         self.app.title("Ranking CIA12")
         self.app.mostrar_tela("inicial")
+
+    def aplicar(self):
+        self.pontuacao.atualizar_pontos()
+        self.rank.renderizar()
     
-    def recarregar(self):
-        pass
