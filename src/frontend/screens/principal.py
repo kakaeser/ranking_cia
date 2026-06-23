@@ -125,6 +125,8 @@ class Principal(CTkFrame):
         self.rank = Rank(
             master = self.central_frame, 
             fg_color=COLORS["bg"], 
+            selected = self.app.competicao_selecionada,
+            service= self.pontuacao_service,
             corner_radius=0
         )
         self.rank.place(relx = 0.81, rely = 0.5, relwidth = 0.3, relheight = 0.77, anchor = "center")
@@ -169,13 +171,11 @@ class Principal(CTkFrame):
         self.toplevel.after(100, lambda: self.toplevel.attributes("-topmost", False))
 
     def marcacao(self, mark):
-        self.question_service.marcar_todos(self.aluno_selecionado["id"], mark)
-        self.gabarito.renderizar()
-    
-    def atualizar_telas(self):
-        self.lista.renderizar()
-        self.gabarito.renderizar()
+        self.pontuacao.zerar()
+
         self.rank.renderizar()
+        self.pontuacao.renderizar()
+
     
     def copiar_rank(self):
         texto = ""
@@ -233,4 +233,7 @@ class Principal(CTkFrame):
     def aplicar(self):
         self.pontuacao.atualizar_pontos()
         self.rank.renderizar()
+    
+    def atualizar_telas(self):
+        pass
     

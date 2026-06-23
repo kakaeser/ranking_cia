@@ -2,18 +2,19 @@ from customtkinter import *
 from frontend.theme import COLORS
 
 class Rank(CTkScrollableFrame):
-    def __init__(self, master, **kwargs):
+    def __init__(self, master, service, selected,**kwargs):
         super().__init__(master, **kwargs)
-        self.ranking = []
-
+        self.service = service
+        self.selected = selected
+        self.ranking = self.service.calcular_rank(self.selected["id"])
+        
         self.renderizar()
 
     def renderizar(self):
         for widget in self.winfo_children():
             widget.destroy()
 
-        self.ranking = []
-        # Ainda não tem nada
+        self.ranking = self.service.calcular_rank(self.selected["id"])
         if not self.ranking:
             CTkLabel(
                 self,
@@ -53,20 +54,83 @@ class Rank(CTkScrollableFrame):
         nota.pack(side="right", padx= 20)
         sep2.pack(side="right", padx= 5)
 
-        if num == 1:
-            linha.configure(fg_color= "#A08300")
-            sep1.configure(fg_color= "#665300")
-            sep2.configure(fg_color= "#665300")
-        if num == 2:
-            linha.configure(fg_color= "#4F8E91")
-            sep1.configure(fg_color= "#3E7072")
-            sep2.configure(fg_color= "#3E7072")
-        if num == 3:
-            linha.configure(fg_color= "#9E5A00")
-            sep1.configure(fg_color= "#794400")
-            sep2.configure(fg_color= "#794400")
-        if num >= 4 and num <= 5:
-            linha.configure(fg_color= "#4B0091")
-            sep1.configure(fg_color= "#440072")
-            sep2.configure(fg_color= "#440072")
+        nome_equipe = rank['nome'] 
+
+        if nome_equipe == "Sarça Ardente":
+            # Laranja
+            linha.configure(fg_color="#F05A28")
+            sep1.configure(fg_color="#C1451B")
+            sep2.configure(fg_color="#C1451B")
+            
+        elif nome_equipe == "Figueira":
+            # Cinza
+            linha.configure(fg_color="#8B8D8E")
+            sep1.configure(fg_color="#6A6B6D")
+            sep2.configure(fg_color="#6A6B6D")
+            
+        elif nome_equipe == "Carvalho":
+            # Preto
+            linha.configure(fg_color="#231F20")
+            sep1.configure(fg_color="#000000")
+            sep2.configure(fg_color="#000000")
+            
+        elif nome_equipe == "Pinheiro":
+            # Azul Claro
+            linha.configure(fg_color="#00AEEF")
+            sep1.configure(fg_color="#0082B3")
+            sep2.configure(fg_color="#0082B3")
+            
+        elif nome_equipe == "Videira":
+            # Rosa/Magenta
+            linha.configure(fg_color="#EC008C")
+            sep1.configure(fg_color="#B2006A")
+            sep2.configure(fg_color="#B2006A")
+            
+        elif nome_equipe == "Cedro Líbano":
+            # Verde Claro
+            linha.configure(fg_color="#39B54A")
+            sep1.configure(fg_color="#298736")
+            sep2.configure(fg_color="#298736")
+            
+        elif nome_equipe == "Bálsamo":
+            # Azul Escuro
+            linha.configure(fg_color="#2E3192")
+            sep1.configure(fg_color="#1F226B")
+            sep2.configure(fg_color="#1F226B")
+            
+        elif nome_equipe == "Ameixeira":
+            # Branco
+            linha.configure(fg_color="#FFFFFF")
+            sep1.configure(fg_color="#CCCCCC")
+            sep2.configure(fg_color="#CCCCCC")
+            posicao.configure(text_color="#000000")
+            nome.configure(text_color="#000000")
+            nota.configure(text_color="#000000")
+            
+        elif nome_equipe == "Jacarandá":
+            # Roxo
+            linha.configure(fg_color="#662D91")
+            sep1.configure(fg_color="#4D216D")
+            sep2.configure(fg_color="#4D216D")
+            
+        elif nome_equipe == "Tamareira":
+            # Verde Escuro
+            linha.configure(fg_color="#006838")
+            sep1.configure(fg_color="#004223")
+            sep2.configure(fg_color="#004223")
+            
+        elif nome_equipe == "Acácia":
+            # Amarelo
+            linha.configure(fg_color="#FFF200")
+            sep1.configure(fg_color="#CFC400")
+            sep2.configure(fg_color="#CFC400")
+            posicao.configure(text_color="#000000")
+            nome.configure(text_color="#000000")
+            nota.configure(text_color="#000000")
+            
+        elif nome_equipe == "Oliveira":
+            # Marrom
+            linha.configure(fg_color="#603813")
+            sep1.configure(fg_color="#42260D")
+            sep2.configure(fg_color="#42260D")
         

@@ -86,14 +86,14 @@ class Tabela_Scroll(CTkScrollableFrame):
 
     def deletar(self, id: int):
         self.service.deletar(id)
-        if self.tipo_dado == "Competicao":
+        if self.tipo_dado == "Competicão":
             self.dados = self.service.listar()
         else:
             self.dados = self.service.listar(self.app.competicao_selecionada["id"])
         self.renderizar()
     
     def criar(self, nome):
-        if self.tipo_dado == "Competicao":
+        if self.tipo_dado == "Competicão":
             self.service.criar(nome)
             self.dados = self.service.listar()
         else:

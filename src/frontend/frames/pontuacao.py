@@ -67,4 +67,8 @@ class Pontuacao_Provas(CTkScrollableFrame):
             except ValueError:
                 ponto_numerico = 0
             self.service.atualizar_pontos(e_id=e_id, p_id= self.selected["id"], pontos= ponto_numerico)
+    
+    def zerar(self):
+        for e_id, var_pontos in self.variaveis_pontos.items():
+            self.service.atualizar_pontos(e_id=e_id, p_id= self.selected["id"], pontos= 0)
         

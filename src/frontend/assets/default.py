@@ -16,7 +16,7 @@ CLANS = {
     "Videira", 
     "Cedro Líbano", 
     "Bálsamo", 
-    "Amexeira", 
+    "Ameixeira", 
     "Jacarandá", 
     "Tamareira", 
     "Acácia", 
